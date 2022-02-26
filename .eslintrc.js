@@ -1,7 +1,12 @@
 module.exports = {
   root: true,
   // 扩展规则
-  extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended', 'plugin:prettier/recommended', 'prettier'],
+  extends: [
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:prettier/recommended',
+    'prettier',
+  ],
   parserOptions: {
     ecmaVersion: 12,
     parser: '@typescript-eslint/parser',
@@ -14,6 +19,6 @@ module.exports = {
     'no-var': 'error',
     'no-undef': 0,
     '@typescript-eslint/consistent-type-definitions': ['error', 'interface'],
-    'max-len': ['error', { code: 250 }],
+    'max-len': ['error', { code: 80 }],
   },
 }

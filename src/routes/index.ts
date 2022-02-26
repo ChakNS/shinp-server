@@ -10,7 +10,13 @@ interface RouterConf {
 const routerConf: Array<RouterConf> = []
 
 function routes(app: Express) {
-  app.get('/', (req: Request, res: Response) => commonRes(res, { word: 'Hello Shinp!!!' }))
+  app.get('/', (req: Request, res: Response) => {
+    commonRes(
+      res,
+      { word: 'Hello Shinp!!!' },
+      { type: 'success', message: '请求成功' }
+    )
+  })
 
   routerConf.forEach((conf) => app.use(conf.path, conf.router))
 }

@@ -1,20 +1,30 @@
 import { Response } from 'express'
+import { Code, codeType } from '../constants/code'
 
-const enum statusCode {
-  success = 200,
-  denied = 401,
-  error = 409,
+interface ResOption {
+  type?: codeType
+  status?: number
+  message?: string
 }
 
-// 统一的请求响应数据格式
-function commonRes(res: Response, data: unknown, options?: { code?: statusCode; status?: number }) {
-  options = Object.assign({ code: statusCode['success'] }, options || {})
-  const { code, status } = options
+function commonRes(res: Response, data: unknown, options?: ResOption) {
+  options = Object.assign({ type: Code[3000] }, options || {})
+
+  const { type, status, message } = options
   let resStatus = status
 
-  if (!resStatus) resStatus = code === statusCode['success'] ? statusCode['success'] : statusCode['error']
+  if (resStatus === undefined) {
+    resStatus = type === Code[3000] ? 200 : 409
+  }
 
-  return res.status(resStatus).send({ code, data })
+  const sendRes: { code: number; data: unknown; message?: string } = {
+    code: Code[type as codeType],
+    data,
+  }
+
+  message && (sendRes.message = message)
+
+  return res.status(resStatus).send(sendRes)
 }
 
 export default commonRes
