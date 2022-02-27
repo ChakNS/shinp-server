@@ -1,5 +1,5 @@
 import { Response } from 'express'
-import { Code, codeType } from '../constants/code'
+import { Code, codeType, CodeMessage } from '../constants/code'
 
 interface ResOption {
   type?: codeType
@@ -25,6 +25,18 @@ function commonRes(res: Response, data: unknown, options?: ResOption) {
   message && (sendRes.message = message)
 
   return res.status(resStatus).send(sendRes)
+}
+
+commonRes.error = function (res: Response, data: unknown) {
+  this(res, data, { type: 'error', message: CodeMessage['error'] })
+}
+
+commonRes.denied = function (res: Response, data: unknown) {
+  this(res, data, {
+    type: 'denied',
+    message: CodeMessage['denied'],
+    status: 401,
+  })
 }
 
 export default commonRes
