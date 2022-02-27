@@ -1,5 +1,6 @@
 import { Express, Request, Response, Router } from 'express'
 import commonRes from '../utils/commonRes'
+import slientHandle from '../utils/silentHandle'
 
 interface RouterConf {
   path: string
@@ -9,13 +10,18 @@ interface RouterConf {
 
 const routerConf: Array<RouterConf> = []
 
+const getInfo = function () {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      Math.random() > 0.5 ? resolve('info...') : reject('error...')
+    }, 500)
+  })
+}
+
 function routes(app: Express) {
-  app.get('/', (req: Request, res: Response) => {
-    commonRes(
-      res,
-      { word: 'Hello Shinp!!!' },
-      { type: 'success', message: '请求成功' }
-    )
+  app.get('/', async (req: Request, res: Response) => {
+    const [e, result] = await slientHandle(getInfo)
+    e ? commonRes.error(res, null) : commonRes(res, { result })
   })
 
   routerConf.forEach((conf) => app.use(conf.path, conf.router))

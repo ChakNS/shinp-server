@@ -18,7 +18,16 @@ module.exports = {
   rules: {
     'no-var': 'error',
     'no-undef': 0,
+    '@typescript-eslint/no-explicit-any': ['off'],
     '@typescript-eslint/consistent-type-definitions': ['error', 'interface'],
+    '@typescript-eslint/ban-types': [
+      'error',
+      {
+        types: {
+          Function: false,
+        },
+      },
+    ],
     'max-len': ['error', { code: 80 }],
   },
 }
