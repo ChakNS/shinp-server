@@ -1,10 +1,11 @@
 import { Response } from 'express'
 import { Code, codeType, CodeMessage } from '../constants/code'
+import { logger } from '../utils'
 
 interface ResOption {
   type?: codeType
   status?: number
-  message?: string
+  message?: unknown
 }
 
 function commonRes(res: Response, data: unknown, options?: ResOption) {
@@ -17,7 +18,7 @@ function commonRes(res: Response, data: unknown, options?: ResOption) {
     resStatus = type === Code[3000] ? 200 : 409
   }
 
-  const sendRes: { code: number; data: unknown; message?: string } = {
+  const sendRes: { code: number; data: unknown; message?: unknown } = {
     code: Code[type as codeType],
     data,
   }
@@ -27,8 +28,9 @@ function commonRes(res: Response, data: unknown, options?: ResOption) {
   return res.status(resStatus).send(sendRes)
 }
 
-commonRes.error = function (res: Response, data: unknown) {
-  this(res, data, { type: 'error', message: CodeMessage['error'] })
+commonRes.error = function (res: Response, data: unknown, message?: unknown, status?: number) {
+  logger.error(message || CodeMessage['error'])
+  this(res, data, { type: 'error', message: message || CodeMessage['error'], status: status || 409 })
 }
 
 commonRes.denied = function (res: Response, data: unknown) {
