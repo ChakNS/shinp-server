@@ -1,7 +1,5 @@
 import { Express, Request, Response, Router } from 'express'
-import commonRes from '../utils/commonRes'
-import slientHandle from '../utils/silentHandle'
-
+import { commonRes, silentHandle } from '../utils'
 interface RouterConf {
   path: string
   router: Router
@@ -20,7 +18,7 @@ const getInfo = function () {
 
 function routes(app: Express) {
   app.get('/', async (req: Request, res: Response) => {
-    const [e, result] = await slientHandle(getInfo)
+    const [e, result] = await silentHandle(getInfo)
     e ? commonRes.error(res, null) : commonRes(res, { result })
   })
 

@@ -1,11 +1,12 @@
 import express from 'express'
 import routes from './routes'
-import logger from './utils/logger'
+import { logger } from './utils'
 import config from 'config'
+import initMiddleware from './middleware'
 
 const app = express()
 
-app.use(express.json())
+initMiddleware(app)
 
 const PORT = config.get<number>('port')
 
