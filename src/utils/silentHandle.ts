@@ -1,10 +1,10 @@
-async function silentHandle(fn: Function, ...args: any[]): Promise<any[]> {
-  const result: any[] = [null, null]
+async function silentHandle<T, U = Error>(fn: Function, ...args: Array<unknown>): Promise<[U, null] | [null, T]> {
+  let result: [U, null] | [null, T]
 
   try {
-    result[1] = await fn(...args)
-  } catch (e) {
-    result[0] = e
+    result = [null, await fn(...args)]
+  } catch (e: any) {
+    result = [e, null]
   }
 
   return result
