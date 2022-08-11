@@ -1,6 +1,6 @@
 export default {
-  port: 1335,
-  dbUri: 'mongodb://localhost:27017/shinp',
+  port: 1337,
+  dbUri: 'mongodb://47.98.124.24:27016/shinp',
   dbUser: 'root',
   dbPassword: '156227',
   dbAuthSource: 'admin',

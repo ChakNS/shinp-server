@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import { commonRes, silentHandle } from '../utils'
+import to from 'await-to-js'
 
 import { CreateUserInput } from '../schema/user.schema'
 import USER_CRUD from '../service/user.service'
